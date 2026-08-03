@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Code Kitchen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --green: #00ff88;
+      --bg: #0a0a0a;
+      --fg: #f0f0f0;
+      --dim: #444;
+    }
+
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--fg);
+      font-family: 'JetBrains Mono', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* CRT scanlines */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 2px,
+        rgba(0, 0, 0, 0.08) 2px,
+        rgba(0, 0, 0, 0.08) 4px
+      );
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    /* --- Heading --- */
+    h1 {
+      font-size: clamp(3rem, 12vw, 9rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--fg);
+      text-shadow:
+        0 0 20px rgba(0, 255, 136, 0.4),
+        0 0 60px rgba(0, 255, 136, 0.15);
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
+      cursor: default;
+      user-select: none;
+      position: relative;
+    }
+
+    h1:hover {
+      animation: fadeIn 0s forwards, glitch 0.3s steps(2) forwards;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes glitch {
+      0%   { text-shadow: -3px 0 #ff0055, 3px 0 var(--green); }
+      25%  { text-shadow: 3px 0 #ff0055, -3px 0 var(--green); }
+      50%  { text-shadow: -2px 0 #00aaff, 2px 0 #ff0055; }
+      75%  { text-shadow: 2px 0 var(--green), -2px 0 #00aaff; }
+      100% {
+        text-shadow:
+          0 0 20px rgba(0, 255, 136, 0.4),
+          0 0 60px rgba(0, 255, 136, 0.15);
+      }
+    }
+
+    /* --- Tagline --- */
+    .tagline {
+      font-size: clamp(0.85rem, 2.2vw, 1.25rem);
+      color: var(--green);
+      letter-spacing: 0.04em;
+      min-height: 1.6em;
+      opacity: 0;
+      animation: fadeIn 0.3s ease 0.7s forwards;
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 0.6em;
+      height: 1.1em;
+      background: var(--green);
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      opacity: 0;
+    }
+
+    .cursor.blink {
+      animation: blink 0.6s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+
+    /* --- Footer --- */
+    footer {
+      position: fixed;
+      bottom: 1.5rem;
+      font-size: 0.7rem;
+      color: var(--dim);
+      letter-spacing: 0.05em;
+      text-align: center;
+      padding: 0 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="center">
+    <h1>Code Kitchen</h1>
+    <p class="tagline" id="tagline"><span id="text"></span><span class="cursor" id="cursor"></span></p>
+  </div>
+
+  <footer>© 2026 Code Kitchen SAS — All rights reserved.</footer>
+
+  <script>
+    const message = '> We are cooking something awesome.';
+    const textEl = document.getElementById('text');
+    const cursor = document.getElementById('cursor');
+    let i = 0;
+
+    function type() {
+      if (i < message.length) {
+        textEl.textContent += message[i++];
+        setTimeout(type, 60);
+      } else {
+        cursor.classList.add('blink');
+      }
+    }
+
+    // Start typewriter after heading fades in
+    setTimeout(() => {
+      cursor.style.opacity = '1';
+      type();
+    }, 1000);
+  </script>
+
+</body>
+</html>
