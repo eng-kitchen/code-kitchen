@@ -128,6 +128,39 @@
       50%       { opacity: 0; }
     }
 
+    /* --- Projects --- */
+    .projects {
+      margin-top: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      font-size: clamp(0.75rem, 1.8vw, 1rem);
+      letter-spacing: 0.04em;
+    }
+
+    .projects.visible {
+      opacity: 1;
+    }
+
+    .project-link {
+      color: var(--dim);
+      text-decoration: none;
+      transition: color 0.2s ease, text-shadow 0.2s ease;
+    }
+
+    .project-link::before {
+      content: '> ';
+      color: var(--dim);
+    }
+
+    .project-link:hover {
+      color: var(--green);
+      text-shadow: 0 0 12px rgba(0, 255, 136, 0.5);
+    }
+
+    .project-link:hover::before {
+      color: var(--green);
+    }
+
     /* --- Footer --- */
     footer {
       position: fixed;
@@ -145,6 +178,9 @@
   <div class="center">
     <h1>Code Kitchen</h1>
     <p class="tagline" id="tagline"><span id="text"></span><span class="cursor" id="cursor"></span></p>
+    <div class="projects" id="projects">
+      <a href="https://github.com/ayurisich/espresso" target="_blank" rel="noopener" class="project-link">github.com/ayurisich/espresso</a>
+    </div>
   </div>
 
   <footer>© 2026 Code Kitchen SAS — All rights reserved.</footer>
@@ -161,8 +197,11 @@
         setTimeout(type, 60);
       } else {
         cursor.classList.add('blink');
+        setTimeout(() => projects.classList.add('visible'), 400);
       }
     }
+
+    const projects = document.getElementById('projects');
 
     // Start typewriter after heading fades in
     setTimeout(() => {
