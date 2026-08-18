@@ -161,6 +161,27 @@
       color: var(--green);
     }
 
+    /* --- Logo --- */
+    .logo {
+      position: fixed;
+      top: 1.25rem;
+      left: 1.25rem;
+      z-index: 20;
+      opacity: 0;
+      animation: fadeIn 0.5s ease 0.15s forwards;
+      line-height: 0;
+    }
+
+    .logo img {
+      height: clamp(2rem, 5vw, 2.75rem);
+      width: auto;
+      display: block;
+    }
+
+    .logo:hover img {
+      filter: drop-shadow(0 0 10px rgba(0, 255, 136, 0.45));
+    }
+
     /* --- Footer --- */
     footer {
       position: fixed;
@@ -174,6 +195,10 @@
   </style>
 </head>
 <body>
+
+  <a class="logo" href="/" aria-label="Code Kitchen">
+    <img src="assets/logo-white.png" alt="Code Kitchen" width="569" height="357" />
+  </a>
 
   <div class="center">
     <h1>Code Kitchen</h1>
